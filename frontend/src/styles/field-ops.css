@@ -1,0 +1,227 @@
+/* Field Ops Enterprise Design System
+   Source: stitch_odoo_ui/field_ops_enterprise/DESIGN.md
+   Engineered for field-ready solar operations: High contrast, outdoor glare resistance, 44px touch targets.
+*/
+
+:root {
+  --field-surface: #f7f9ff;
+  --field-surface-dim: #cedbeb;
+  --field-surface-bright: #f7f9ff;
+  --field-surface-container-lowest: #ffffff;
+  --field-surface-container-low: #ecf4ff;
+  --field-surface-container: #e2efff;
+  --field-surface-container-high: #dceaf9;
+  --field-surface-container-highest: #d6e4f3;
+  --field-on-surface: #101d28;
+  --field-on-surface-variant: #3f4942;
+  --field-inverse-surface: #25323d;
+  --field-inverse-on-surface: #e7f2ff;
+  --field-outline: #6f7a71;
+  --field-outline-variant: #bfc9c0;
+  --field-surface-tint: #186c45;
+  --field-primary: #005131;
+  --field-primary-container: #176b45;
+  --field-on-primary: #ffffff;
+  --field-on-primary-container: #99e9b9;
+  --field-inverse-primary: #88d7a8;
+  --field-primary-fixed: #a4f4c3;
+  --field-primary-fixed-dim: #88d7a8;
+  --field-on-primary-fixed: #002111;
+  --field-on-primary-fixed-variant: #005232;
+  --field-secondary: #4d6171;
+  --field-on-secondary: #ffffff;
+  --field-secondary-container: #d0e5f9;
+  --field-on-secondary-container: #536778;
+  --field-secondary-fixed: #d0e5f9;
+  --field-secondary-fixed-dim: #b4c9dc;
+  --field-on-secondary-fixed: #081d2c;
+  --field-on-secondary-fixed-variant: #354959;
+  --field-tertiary: #3f474f;
+  --field-tertiary-container: #575f67;
+  --field-on-tertiary-container: #d1d9e3;
+  --field-error: #ba1a1a;
+  --field-on-error: #ffffff;
+  --field-error-container: #ffdad6;
+  --field-on-error-container: #93000a;
+}
+
+/* Material Symbols Outlined Font definition */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined', sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  display: inline-block;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Mobile App Safe-Area & Viewport Classes */
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Moving Laser Scan Bar for Camera Viewport */
+@keyframes laserScanAnim {
+  0% {
+    top: 10%;
+    opacity: 0.8;
+  }
+  50% {
+    top: 90%;
+    opacity: 1;
+  }
+  100% {
+    top: 10%;
+    opacity: 0.8;
+  }
+}
+
+.laser-scanner-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #88d7a8, #a4f4c3, #88d7a8, transparent);
+  box-shadow: 0 0 14px #88d7a8, 0 0 4px #a4f4c3;
+  animation: laserScanAnim 2.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Field Ops Typography Classes */
+.font-headline-xl {
+  font-family: 'Inter', sans-serif;
+  font-size: 36px;
+  line-height: 44px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.font-headline-xl-mobile {
+  font-family: 'Inter', sans-serif;
+  font-size: 28px;
+  line-height: 36px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.font-headline-lg {
+  font-family: 'Inter', sans-serif;
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.font-headline-md {
+  font-family: 'Inter', sans-serif;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.font-headline-sm {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.font-body-lg {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+.font-body-md {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+}
+
+.font-body-sm {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+}
+
+.font-label-lg {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.font-label-md {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.font-label-sm {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  line-height: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.font-code-telemetry {
+  font-family: 'Inter', monospace;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  font-feature-settings: "tnum" on, "cv05" on;
+}
+
+/* Mobile App Shell Container */
+.field-mobile-app-container {
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background-color: var(--field-surface);
+  color: var(--field-on-surface);
+  position: relative;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 1024px) {
+  .field-mobile-desktop-wrapper {
+    display: flex;
+    justify-content: center;
+    background-color: #0f172a;
+    padding: 1.5rem 0;
+    min-height: 100vh;
+  }
+}
