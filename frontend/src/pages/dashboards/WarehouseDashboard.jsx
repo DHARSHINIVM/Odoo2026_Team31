@@ -5,16 +5,14 @@ import { useAuth } from '../../context/AuthContext';
 import {
   Package, Boxes, Truck, AlertTriangle, CheckCircle2,
   Warehouse as WhIcon, ArrowRightLeft, ShieldAlert, BarChart2,
-  Smartphone, Monitor, ExternalLink
+  ExternalLink
 } from 'lucide-react';
-import WarehouseManagerMobileApp from '../mobile/WarehouseManagerMobileApp';
 
 export default function WarehouseDashboard({ refreshTrigger }) {
   const { user } = useAuth();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [viewMode, setViewMode] = useState('desktop'); // Default to full-featured Web Application Dashboard
 
   const loadData = async () => {
     setLoading(true);
@@ -47,99 +45,7 @@ export default function WarehouseDashboard({ refreshTrigger }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-      
-      {/* Viewport & Mode Switcher */}
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        background: '#ffffff',
-        border: '1px solid #e2e8f0',
-        borderRadius: '12px',
-        padding: '0.6rem 1rem',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.04)'
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-          <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-            Work Mode:
-          </span>
-          <div style={{ display: 'flex', gap: '0.35rem', background: '#f1f5f9', padding: '0.25rem', borderRadius: '8px' }}>
-            <button
-              onClick={() => setViewMode('mobile')}
-              className={`btn btn-sm ${viewMode === 'mobile' ? 'btn-primary' : 'btn-secondary'}`}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.4rem',
-                fontSize: '0.8rem',
-                fontWeight: 600,
-                background: viewMode === 'mobile' ? '#ca8a04' : 'transparent',
-                color: viewMode === 'mobile' ? '#ffffff' : '#475569',
-                border: 'none',
-                boxShadow: viewMode === 'mobile' ? '0 1px 2px rgba(0,0,0,0.1)' : 'none'
-              }}
-            >
-              <Smartphone size={15} />
-              <span>Mobile Warehouse Ops</span>
-            </button>
-            <button
-              onClick={() => setViewMode('desktop')}
-              className={`btn btn-sm ${viewMode === 'desktop' ? 'btn-primary' : 'btn-secondary'}`}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.4rem',
-                fontSize: '0.8rem',
-                fontWeight: 600,
-                background: viewMode === 'desktop' ? '#0f172a' : 'transparent',
-                color: viewMode === 'desktop' ? '#ffffff' : '#475569',
-                border: 'none',
-                boxShadow: viewMode === 'desktop' ? '0 1px 2px rgba(0,0,0,0.1)' : 'none'
-              }}
-            >
-              <Monitor size={15} />
-              <span>Desktop Console View</span>
-            </button>
-          </div>
-        </div>
-
-        <Link
-          to="/mobile/warehouse"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn btn-sm"
-          style={{
-            fontSize: '0.78rem',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.35rem',
-            color: '#854d0e',
-            background: '#fef9c3',
-            border: '1px solid #fef08a',
-            fontWeight: 600
-          }}
-        >
-          <ExternalLink size={13} />
-          <span>Open Fullscreen PWA App</span>
-        </Link>
-      </div>
-
-      {viewMode === 'mobile' ? (
-        <div style={{
-          maxWidth: '430px',
-          width: '100%',
-          margin: '0 auto',
-          borderRadius: '28px',
-          overflow: 'hidden',
-          boxShadow: '0 25px 60px -15px rgba(0, 0, 0, 0.3)',
-          border: '8px solid #1e293b',
-          background: '#f7f9ff'
-        }}>
-          <WarehouseManagerMobileApp data={data} user={user} onRefresh={loadData} />
-        </div>
-      ) : (
-        <>
-          {/* Banner */}
+      {/* Banner */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'linear-gradient(135deg, #713f12 0%, #451a03 100%)', padding: '1.5rem 2rem', borderRadius: '12px', color: '#ffffff', border: '1px solid #ca8a04' }}>
         <div>
           <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#fef08a', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
@@ -152,10 +58,14 @@ export default function WarehouseDashboard({ refreshTrigger }) {
             Stock allocations, BOM component reservations, and dispatch vehicle staging across 3 depots.
           </p>
         </div>
-        <div style={{ display: 'flex', gap: '0.75rem' }}>
+        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
           <Link to="/inventory" className="btn btn-secondary btn-sm" style={{ background: '#854d0e', color: '#fff', border: 'none' }}>
             <Boxes size={14} />
             <span>Depots & Stock</span>
+          </Link>
+          <Link to="/inventory?tab=transfers" className="btn btn-secondary btn-sm" style={{ background: '#a16207', color: '#fff', border: 'none' }}>
+            <ArrowRightLeft size={14} />
+            <span>Stock Transfers</span>
           </Link>
           <Link to="/dispatch" className="btn btn-primary btn-sm" style={{ background: '#eab308', color: '#000', border: 'none' }}>
             <Truck size={14} />
@@ -419,9 +329,6 @@ export default function WarehouseDashboard({ refreshTrigger }) {
             </table>
           </div>
         </div>
-      )}
-
-        </>
       )}
 
     </div>

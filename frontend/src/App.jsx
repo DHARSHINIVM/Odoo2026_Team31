@@ -14,9 +14,7 @@ import AdminDashboard from './pages/dashboards/AdminDashboard';
 import SalesDashboard from './pages/dashboards/SalesDashboard';
 import WarehouseDashboard from './pages/dashboards/WarehouseDashboard';
 import UnifiedTechnicianDashboard from './pages/dashboards/UnifiedTechnicianDashboard';
-import StandaloneTechnicianMobilePage from './pages/mobile/StandaloneTechnicianMobilePage';
-import StandaloneWarehouseMobilePage from './pages/mobile/StandaloneWarehouseMobilePage';
-import StandaloneCustomerMobilePage from './pages/mobile/StandaloneCustomerMobilePage';
+import CustomerDashboard from './pages/dashboards/CustomerDashboard';
 
 import CustomersPage from './pages/CustomersPage';
 import EnquiriesPage from './pages/EnquiriesPage';
@@ -63,39 +61,11 @@ export default function App() {
           <Route path="/passport/public/:token" element={<PublicPassportPage />} />
           <Route path="/customer/passport" element={<PublicPassportPage />} />
 
-          {/* Standalone Field Ops Mobile Application (Full-Screen PWA Viewport) */}
-          <Route
-            path="/mobile/technician"
-            element={
-              <ProtectedRoute allowedRoles={['ADMIN', 'SOLAR_MANAGER', 'TECHNICIAN', 'FIELD_TECHNICIAN']}>
-                <StandaloneTechnicianMobilePage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/mobile/warehouse"
-            element={
-              <ProtectedRoute allowedRoles={['ADMIN', 'SOLAR_MANAGER', 'WAREHOUSE_MANAGER']}>
-                <StandaloneWarehouseMobilePage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/mobile/customer"
-            element={
-              <ProtectedRoute allowedRoles={['ADMIN', 'SOLAR_MANAGER', 'CUSTOMER']}>
-                <StandaloneCustomerMobilePage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/customer"
-            element={
-              <ProtectedRoute allowedRoles={['ADMIN', 'SOLAR_MANAGER', 'CUSTOMER']}>
-                <StandaloneCustomerMobilePage />
-              </ProtectedRoute>
-            }
-          />
+          {/* Canonical Web Redirection for Legacy Mobile Paths */}
+          <Route path="/mobile/technician" element={<Navigate to="/dashboard/technician" replace />} />
+          <Route path="/mobile/warehouse" element={<Navigate to="/dashboard/warehouse" replace />} />
+          <Route path="/mobile/customer" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/customer" element={<Navigate to="/dashboard" replace />} />
 
           {/* Authenticated Application Layout */}
           <Route
@@ -138,6 +108,14 @@ export default function App() {
               element={
                 <ProtectedRoute allowedRoles={['ADMIN', 'SOLAR_MANAGER', 'TECHNICIAN', 'FIELD_TECHNICIAN']}>
                   <UnifiedTechnicianDashboard refreshTrigger={refreshTrigger} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="dashboard/customer"
+              element={
+                <ProtectedRoute allowedRoles={['ADMIN', 'SOLAR_MANAGER', 'CUSTOMER']}>
+                  <CustomerDashboard refreshTrigger={refreshTrigger} />
                 </ProtectedRoute>
               }
             />

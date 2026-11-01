@@ -1,0 +1,429 @@
+<USER_REQUEST>
+/goal # ANTIGRAVITY MASTER IMPLEMENTATION PROMPT
+# SUNPOWER SOLUTIONS — CUSTOMER MOBILE WORKSPACE INTEGRATION
+
+## 1. GOAL
+
+Integrate and implement a complete Customer Mobile Workspace into the existing SunPower Solutions Solar Installation Management System.
+
+The Customer Workspace must provide a simple, customer-friendly interface for:
+
+1. Requesting a new solar installation.
+2. Submitting preferred site survey dates and times.
+3. Viewing existing subscribed solar projects.
+4. Scanning a project's Digital Passport QR code.
+5. Booking service visits.
+6. Registering complaints.
+7. Viewing survey and appointment history.
+8. Submitting product feedback.
+9. Submitting Technician work feedback.
+10. Receiving relevant notifications and managing customer profile information.
+
+This is an integration task within the existing project, not a greenfield redevelopment.
+
+The Customer Workspace must connect to the existing central backend, shared database, APIs, authentication system, Digital Passport infrastructure, appointment workflow, service-ticket management and feedback infrastructure.
+
+### Overall system architecture
+
+Maintain exactly five primary user roles:
+
+1. Administrator — Web Workspace.
+2. Sales Executive — Web Workspace.
+3. Technician — Mobile Workspace.
+4. Warehouse Manager — Mobile Workspace.
+5. Customer — Mobile Workspace.
+
+Do not create separate backends or databases for the Customer application.
+
+Do not introduce Odoo ERP.
+
+Do not rebuild or redesign the other four workspaces.
+
+---
+
+# 2. CUSTOMER MOBILE WORKSPACE — APPLICATION STRUCTURE
+
+Implement the Customer application with five primary bottom-navigation sections:
+
+1. Home
+2. My Projects
+3. Scan Digital Passport
+4. History
+5. Profile
+
+The interface must be designed primarily for mobile devices and must follow the existing project's design system, components and mobile technology stack.
+
+The application must be intuitive and require minimal customer effort.
+
+Do not overcrowd the navigation with unnecessary modules.
+
+The two main customer journeys must be immediately accessible:
+
+- New customer: Request Solar Installation.
+- Existing customer: View Projects or Scan Digital Passport.
+
+---
+
+# 3. MODULE 1 — CUSTOMER HOME / DASHBOARD
+
+## Goal
+
+Provide a simple starting screen from which customers can request a solar installation, access existing projects and initiate services through their Digital Passport.
+
+## Required functionality
+
+### A. Welcome section
+
+Display:
+- Customer name.
+- Welcome message.
+- Notification icon.
+- Profile shortcut.
+
+Retrieve the customer name from the authenticated customer account.
+
+### B. New Solar Installation Request
+
+Provide a prominent action labelled:
+
+**Request New Solar Installation**
+
+Selecting this action must open the installation enquiry form.
+
+### C. My Projects shortcut
+
+Display a summary of the customer's existing subscribed solar projects.
+
+Show:
+- Number of active projects.
+- Project identification.
+- Solar capacity.
+- Current project status.
+
+Selecting the shortcut must navigate to My Projects.
+
+### D. Digital Passport shortcut
+
+Provide a prominent QR scanner shortcut.
+
+The customer should be able to scan an existing project's Digital Passport and access the relevant services.
+
+### E. Recent activity
+
+Display relevant recent events, such as:
+- Survey appointment confirmation.
+- Appointment changes.
+- Service request updates.
+- Installation updates.
+- Important project notifications.
+
+All information must come from actual backend records.
+
+Do not hardcode dashboard statistics or recent activity.
+
+---
+
+# 4. MODULE 2 — INSTALLATION REQUEST
+
+## Goal
+
+Allow new or existing customers to submit a solar installation enquiry using a minimal form and select a preferred site survey appointment time.
+
+This must be a simple lead-generation and survey-request workflow, not a detailed technical survey form.
+
+## A. Installation request form
+
+Collect the following information:
+
+| Field | Requirement |
+|---|---|
+| Customer name | Required |
+| Mobile number | Required |
+| Email | Optional |
+| Installation address | Required |
+| Customer type | Residential / Commercial / Industrial |
+| Solar system preference | On-Grid / Off-Grid / Not sure |
+| Approximate capacity | Optional |
+| Additional remarks | Optional |
+
+For an authenticated existing customer, automatically populate known customer details.
+
+Allow the customer to update permitted details if necessary.
+
+Do not request roof measurements, shading readings, electrical measurements, technical BOM details or installation checklists.
+
+These belong to the Technician's site survey workflow.
+
+## B. Preferred survey appointment
+
+Allow the customer to select:
+
+- Preferred survey date.
+- Preferred time window.
+- Alternative preferred date, optionally.
+- Additional access instructions, optionally.
+
+Time windows must be configurable using the existing scheduling system.
+
+Do not hardcode availability.
+
+## C. Review and submission
+
+Before submission, show a summary of:
+- Customer details.
+- Installation address.
+- Solar preference.
+- Preferred survey date.
+- Preferred time window.
+- Additional remarks.
+
+On submission:
+1. Validate all required information.
+2. Create or identify the CRM customer record.
+3. Create an enquiry record.
+4. Create a survey appointment request associated with the enquiry.
+5. Store the customer's preferred date and time.
+6. Generate a unique enquiry/reference number.
+7. Notify the Sales Executive or authorized scheduling user.
+8. Display a successful submission acknowledgement.
+
+Suggested confirmation:
+
+"Your solar installation request has been received. Our team will review your preferred survey time and contact you with appointment confirmation."
+
+Suggested request statuses:
+- Submitted.
+- Pending Review.
+- Survey Appointment Requested.
+- Survey Scheduled.
+- Survey Completed.
+- Converted to Project.
+- Closed.
+
+## D. Important workflow rules
+
+The installation enquiry, survey appointment request and Technician survey task must remain distinct but related records.
+
+The customer must not:
+- Assign a Technician.
+- Confirm a Technician appointment.
+- Approve a survey.
+- Directly create technical survey readings.
+
+The authorized scheduling workflow must review availability and confirm the appointment.
+
+---
+
+# 5. MODULE 3 — MY PROJECTS
+
+## Goal
+
+Display all solar installation projects that the authenticated customer has already subscribed to through SunPower Solutions.
+
+This screen must show actual customer-owned projects, not all projects in the company.
+
+## A. Project listing
+
+Each project card must display:
+- Project ID.
+- Solar capacity.
+- On-Grid or Off-Grid type.
+- Installation address.
+- Project status.
+- Installation date, where available.
+- Relevant project image, if available.
+
+Support customers with multiple projects.
+
+Provide appropriate empty-state messaging when the customer has no subscribed projects.
+
+## B. Project details
+
+When the customer opens a project, show:
+
+### Project overview
+- Project identification.
+- Solar capacity.
+- System type.
+- Installation address.
+- Current project status.
+- Installation completion date.
+
+### Project timeline
+
+Show relevant customer-facing milestones:
+1. Enquiry received.
+2. Site survey.
+3. Proposal and order.
+4. Material preparation.
+5. Installation scheduling.
+6. Installation in progress.
+7. Commissioning.
+8. Handover completed.
+
+Map internal project statuses to understandable customer-facing descriptions.
+
+Do not expose internal staff notes, confidential operational information or internal approval discussions.
+
+### Project-related actions
+
+Provide access to:
+- Scan/open Digital Passport.
+- Request service.
+- Register complaint.
+- View survey and appointment history.
+- Submit product feedback when eligible.
+
+## C. Data rules
+
+- One customer can have multiple projects.
+- Each project must be associated with the correct customer record.
+- All project queries must enforce backend ownership.
+- Project status must come from the actual project workflow.
+- Do not create duplicate project records for the Customer Workspace.
+
+---
+
+# 6. MODULE 4 — DIGITAL PASSPORT QR SCANNER
+
+## Goal
+
+Make the Digital Passport scanner the primary access point for existing customers who need to access their solar system details, book services or register complaints.
+
+## A. QR scanning
+
+Implement camera-based QR scanning using the existing mobile framework.
+
+Requirements:
+- Request camera permission appropriately.
+- Display a clear scanning interface.
+- Support scanning a valid Digital Passport QR code.
+- Provide manual recovery or retry when scanning fails.
+- Validate the scanned reference with the backend.
+- Handle invalid, expired or unavailable Passport references.
+
+Do not simulate scanning.
+
+If camera support is blocked by an existing framework dependency, report the dependency rather than pretending scanning works.
+
+## B. Passport validation
+
+After scanning:
+1. Resolve the Passport reference.
+2. Authenticate the customer.
+3. Verify customer ownership or explicitly authorized access.
+4. Retrieve the associated project.
+5. Retrieve validated Passport information.
+6. Display the project and equipment overview.
+
+A QR code must not expose another customer's private information.
+
+Use secure Passport identifiers or signed references. Do not encode sensitive customer information directly into QR codes.
+
+## C. Passport overview
+
+Display:
+- Project ID.
+- Solar capacity.
+- System type.
+- Installation date.
+- Installed components.
+- Validated component serial numbers.
+- Commissioning summary.
+- Warranty status.
+- Relevant Passport information.
+
+Display only validated installed-component records as installed equipment.
+
+Do not treat dispatched components as installed.
+
+## D. Actions after scanning
+
+Provide the following actions prominently:
+
+### 1. Book a Service
+
+Open the service booking workflow with the scanned project automatically selected.
+
+### 2. Register a Complaint
+
+Open the complaint registration form with the scanned project automatically selected.
+
+### 3. View Equipment
+
+Display validated equipment and component serial number information.
+
+### 4. View Warranty
+
+Display relevant warranty registration, activation and coverage information.
+
+The Customer must not be able to edit Passport records, serial numbers, installation records or warranty activation information.
+
+---
+
+# 7. MODULE 5 — SERVICE BOOKING AND COMPLAINT REGISTRATION
+
+## Goal
+
+Allow customers to request service and report problems associated with their existing solar installations.
+
+Both operations must be integrated with the existing Service Management backend.
+
+## A. Service booking
+
+When the customer selects Book a Service:
+
+- Automatically identify the scanned project.
+- Allow selection of service category.
+- Allow selection of affected equipment, where applicable.
+- Collect a short description.
+- Allow selection of a preferred visit date.
+- Allow selection of a preferred time window.
+- Allow optional evidence photographs.
+- Submit the request.
+
+Suggested service categories:
+- General Maintenance.
+- Solar Panel Inspection.
+- Inverter Issue.
+- Battery Issue.
+- Electrical Issue.
+- Performance Concern.
+- Other.
+
+Create a persistent service ticket and the relevant appointment request.
+
+Do not directly assign a Technician from the Customer application.
+
+## B. Complaint registration
+
+Provide a separate complaint registration interface.
+
+Fields:
+- Project ID, automatically identified.
+- Equipment, if applicable.
+- Complaint category.
+- Complaint description.
+- Optional photographs.
+- Preferred service date, optionally.
+- Customer contact information.
+
+On submission:
+- Validate
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-11-01T08:23:34+05:30.
+
+The user's current state is as follows:
+Other open documents:
+- d:\Desktop\Hackathon\Odoo\test_system_wide_role_consolidation.py (LANGUAGE_UNSPECIFIED)
+- d:\Desktop\Hackathon\Odoo\backend\app\routers\surveys.py (LANGUAGE_UNSPECIFIED)
+- d:\Desktop\Hackathon\Odoo\backend\app\routers\inventory.py (LANGUAGE_UNSPECIFIED)
+- d:\Desktop\Hackathon\Odoo\frontend\src\pages\DispatchPage.jsx (LANGUAGE_UNSPECIFIED)
+- d:\Desktop\Hackathon\Odoo\frontend\src\pages\InventoryPage.jsx (LANGUAGE_UNSPECIFIED)
+
+The user has mentioned some items in the form @[ITEM]. Here is extra information about the items that were mentioned by the user, in the order that they appear:
+
+/goal is a [Slash Command]:
+The user has marked this task with /goal, indicating that this task is intended to run for a long time without user input, e.g. overnight. You should be extra thorough and only stop when you are confident the goal has been completely fulfilled. The system will force you to continue execution, prompting you to audit your work until completion. Once complete, include <!-- GOAL_COMPLETE --> in your response. If the user explicitly asked to stop or cancel this goal, include <!-- GOAL_CANCELLED --> in your response to cancel the goal.
+</ADDITIONAL_METADATA>

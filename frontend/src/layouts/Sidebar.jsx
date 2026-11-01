@@ -80,11 +80,16 @@ const ROLE_MENUS = {
   ],
 
   CUSTOMER: [
-    { category: 'Customer Portal', items: [
-      { name: 'Solar Passport', path: '/passport', icon: QrCode },
-      { name: 'Appointments', path: '/appointments', icon: Calendar },
-      { name: 'Service Tickets', path: '/service', icon: HeadphonesIcon },
-      { name: 'Documents', path: '/documents', icon: FileText },
+    { category: 'Customer Web Workspace', items: [
+      { name: 'Dashboard & Lead Form', path: '/dashboard?tab=lead', icon: LayoutDashboard },
+      { name: 'My Subscribed Projects', path: '/dashboard?tab=projects', icon: Boxes },
+      { name: 'Digital Passport Scanner', path: '/dashboard?tab=passport', icon: QrCode },
+      { name: 'Customer Feedback', path: '/dashboard?tab=feedback', icon: Award },
+    ]},
+    { category: 'Customer Services', items: [
+      { name: 'Service & Maintenance', path: '/service', icon: HeadphonesIcon },
+      { name: 'Field Appointments', path: '/appointments', icon: Calendar },
+      { name: 'Project Documents', path: '/documents', icon: FileText },
     ]},
   ],
 
@@ -129,22 +134,20 @@ export default function Sidebar() {
   const isLinkActive = (itemPath) => {
     const [targetPath, targetQuery] = itemPath.split('?');
     
-    // Check dashboard match
-    if (targetPath.startsWith('/dashboard') || targetPath === '/') {
-      if (location.pathname === targetPath) return true;
-      if (location.pathname === '/' && targetPath === `/dashboard/${currentRole.toLowerCase().replace('_', '-')}`) return true;
-      if (location.pathname === '/' && currentRole === 'ADMIN' && targetPath === '/dashboard/admin') return true;
+    const pathMatches =
+      location.pathname === targetPath ||
+      (location.pathname === '/' && targetPath === '/dashboard') ||
+      (location.pathname === '/' && targetPath === `/dashboard/${currentRole.toLowerCase().replace('_', '-')}`) ||
+      (location.pathname === '/' && currentRole === 'ADMIN' && targetPath === '/dashboard/admin');
+
+    if (!pathMatches) return false;
+
+    if (targetQuery) {
+      if (location.search.includes(targetQuery)) return true;
+      if (targetQuery === 'tab=lead' && (!location.search || location.search === '' || location.search === '?')) return true;
       return false;
     }
 
-    if (location.pathname !== targetPath) return false;
-
-    // Check query params if specified
-    if (targetQuery) {
-      return location.search.includes(targetQuery);
-    }
-
-    // Default tab matches if no search query present
     return !location.search || location.search === '' || location.search === '?';
   };
 

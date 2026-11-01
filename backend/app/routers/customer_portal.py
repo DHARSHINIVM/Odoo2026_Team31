@@ -980,8 +980,15 @@ def submit_installation_request(
         except Exception:
             cap_val = 5.0
 
-    # 2. Create Enquiry
-    next_enq_num = db.query(Enquiry).count() + 1
+    # 2. Create Enquiry with robust unique number generation
+    existing_enqs = db.query(Enquiry.enquiry_number).filter(Enquiry.enquiry_number.like("ENQ-2026-%")).all()
+    existing_enq_nums = set()
+    for (num_str,) in existing_enqs:
+        try:
+            existing_enq_nums.add(int(num_str.split("-")[-1]))
+        except Exception:
+            pass
+    next_enq_num = (max(existing_enq_nums) + 1) if existing_enq_nums else (db.query(Enquiry).count() + 1)
     enquiry_number = f"ENQ-2026-{next_enq_num:03d}"
 
     notes_parts = [
@@ -1012,11 +1019,18 @@ def submit_installation_request(
     db.add(enquiry)
     db.flush()
 
-    # 3. Create Survey Appointment Request
+    # 3. Create Survey Appointment Request with robust unique number generation
     apt_date = payload.preferred_survey_date or (datetime.date.today() + datetime.timedelta(days=2))
     apt_slot = payload.preferred_time_window or "10:00 - 12:00"
 
-    next_apt_num = db.query(Appointment).count() + 1
+    existing_apts = db.query(Appointment.appointment_number).filter(Appointment.appointment_number.like("APT-2026-%")).all()
+    existing_apt_nums = set()
+    for (apt_str,) in existing_apts:
+        try:
+            existing_apt_nums.add(int(apt_str.split("-")[-1]))
+        except Exception:
+            pass
+    next_apt_num = (max(existing_apt_nums) + 1) if existing_apt_nums else (db.query(Appointment).count() + 1)
     appointment_number = f"APT-2026-{next_apt_num:04d}"
 
     apt_notes = f"Installation Request {enquiry_number} | Type: {payload.customer_type}"

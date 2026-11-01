@@ -20,18 +20,14 @@ import {
   Check,
   FileText,
   UserCheck,
-  Smartphone,
-  Monitor,
   ExternalLink
 } from 'lucide-react';
-import FieldTechnicianMobileApp from '../mobile/FieldTechnicianMobileApp';
 
 export default function UnifiedTechnicianDashboard({ refreshTrigger }) {
   const { user } = useAuth();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [viewMode, setViewMode] = useState('mobile'); // 'mobile' | 'desktop'
   const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'surveys' | 'installations' | 'history'
 
   // Survey Submission Modal
@@ -180,98 +176,7 @@ export default function UnifiedTechnicianDashboard({ refreshTrigger }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-      {/* Viewport & Mode Switcher */}
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        background: '#ffffff',
-        border: '1px solid #e2e8f0',
-        borderRadius: '12px',
-        padding: '0.6rem 1rem',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.04)'
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-          <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-            Work Mode:
-          </span>
-          <div style={{ display: 'flex', gap: '0.35rem', background: '#f1f5f9', padding: '0.25rem', borderRadius: '8px' }}>
-            <button
-              onClick={() => setViewMode('mobile')}
-              className={`btn btn-sm ${viewMode === 'mobile' ? 'btn-primary' : 'btn-secondary'}`}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.4rem',
-                fontSize: '0.8rem',
-                fontWeight: 600,
-                background: viewMode === 'mobile' ? '#005131' : 'transparent',
-                color: viewMode === 'mobile' ? '#ffffff' : '#475569',
-                border: 'none',
-                boxShadow: viewMode === 'mobile' ? '0 1px 2px rgba(0,0,0,0.1)' : 'none'
-              }}
-            >
-              <Smartphone size={15} />
-              <span>Mobile Field Ops (Stitch UI)</span>
-            </button>
-            <button
-              onClick={() => setViewMode('desktop')}
-              className={`btn btn-sm ${viewMode === 'desktop' ? 'btn-primary' : 'btn-secondary'}`}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.4rem',
-                fontSize: '0.8rem',
-                fontWeight: 600,
-                background: viewMode === 'desktop' ? '#0f172a' : 'transparent',
-                color: viewMode === 'desktop' ? '#ffffff' : '#475569',
-                border: 'none',
-                boxShadow: viewMode === 'desktop' ? '0 1px 2px rgba(0,0,0,0.1)' : 'none'
-              }}
-            >
-              <Monitor size={15} />
-              <span>Desktop Console View</span>
-            </button>
-          </div>
-        </div>
-
-        <Link
-          to="/mobile/technician"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn btn-sm"
-          style={{
-            fontSize: '0.78rem',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.35rem',
-            color: '#005131',
-            background: '#e8f5e9',
-            border: '1px solid #c8e6c9',
-            fontWeight: 600
-          }}
-        >
-          <ExternalLink size={13} />
-          <span>Open Fullscreen PWA App</span>
-        </Link>
-      </div>
-
-      {viewMode === 'mobile' ? (
-        <div style={{
-          maxWidth: '430px',
-          width: '100%',
-          margin: '0 auto',
-          borderRadius: '28px',
-          overflow: 'hidden',
-          boxShadow: '0 25px 60px -15px rgba(0, 0, 0, 0.3)',
-          border: '8px solid #1e293b',
-          background: '#f7f9ff'
-        }}>
-          <FieldTechnicianMobileApp data={data} user={user} onRefresh={loadData} />
-        </div>
-      ) : (
-        <>
-          {/* Banner */}
+      {/* Banner */}
       <div style={{
         display: 'flex',
         justifyContent: 'space-between',
@@ -850,9 +755,6 @@ export default function UnifiedTechnicianDashboard({ refreshTrigger }) {
             </form>
           </div>
         </div>
-      )}
-
-        </>
       )}
 
     </div>

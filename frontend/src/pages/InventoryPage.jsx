@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import PageHeader from '../components/PageHeader';
 import DataTable from '../components/DataTable';
 import StatusBadge from '../components/StatusBadge';
@@ -27,17 +28,19 @@ import {
 } from 'lucide-react';
 
 const CATEGORIES = [
-  'ALL',
-  'SOLAR_PANEL',
-  'INVERTER',
-  'MOUNTING_STRUCTURE',
-  'BATTERY',
-  'CABLES',
-  'PROTECTION',
-  'ACCESSORIES',
+  { value: 'ALL', label: 'All Categories' },
+  { value: 'PANEL', label: 'Solar Panels' },
+  { value: 'INVERTER', label: 'Inverters' },
+  { value: 'STRUCTURE', label: 'Mounting Structures' },
+  { value: 'BATTERY', label: 'Batteries' },
+  { value: 'CABLE', label: 'Cables & Wiring' },
+  { value: 'PROTECTION', label: 'Protection & Switchgear' },
+  { value: 'METER', label: 'Bi-Directional Meters' },
+  { value: 'ACCESSORIES', label: 'Accessories & Hardware' },
 ];
 
 export default function InventoryPage({ refreshTrigger }) {
+  const { user } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -431,7 +434,7 @@ export default function InventoryPage({ refreshTrigger }) {
         <div>
           <div style={{ fontWeight: 600 }}>{i.component_name}</div>
           <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-            SKU: <span style={{ fontWeight: 600 }}>{i.sku}</span> · {i.category.replace(/_/g, ' ')}
+            SKU: <span style={{ fontWeight: 600 }}>{i.sku}</span> · {(i.category || 'OTHER').replace(/_/g, ' ')}
           </div>
         </div>
       ),
@@ -707,8 +710,8 @@ export default function InventoryPage({ refreshTrigger }) {
                 onChange={(e) => setSelectedCategory(e.target.value)}
               >
                 {CATEGORIES.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat.replace(/_/g, ' ')}
+                  <option key={cat.value} value={cat.value}>
+                    {cat.label}
                   </option>
                 ))}
               </select>

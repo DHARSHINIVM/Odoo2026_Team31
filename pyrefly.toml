@@ -1,0 +1,40 @@
+python-version = "3.10"
+python-platform = "win32"
+python-interpreter-path = "venv/Scripts/python.exe"
+
+site-packages-path = [
+    "C:\\life ends with this\\Solar\\backend",
+    "C:\\life ends with this\\Solar\\venv\\Lib\\site-packages",
+    "backend"
+]
+
+project-includes = [
+    "backend/**",
+    "scratch/**"
+]
+
+project-excludes = [
+    "**/venv/**",
+    "**/frontend/**",
+    "**/node_modules/**",
+    "**/.pytest_cache/**"
+]
+
+permissive-ignores = true
+enabled-ignores = [
+    "type",
+    "pyrefly",
+    "pyright",
+    "mypy",
+    "ty",
+    "pyre",
+    "zuban"
+]
+type-ignore-unknown-tag-behavior = "suppress"
+disable-type-errors-in-ide = true
+
+[errors]
+missing-import = "ignore"
+bad-assignment = "ignore"
+bad-argument-type = "ignore"
+deprecated = "ignore"

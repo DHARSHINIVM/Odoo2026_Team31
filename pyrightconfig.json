@@ -1,0 +1,11 @@
+{
+  "include": [
+    "backend",
+    "scratch"
+  ],
+  "extraPaths": [
+    "./backend"
+  ],
+  "pythonVersion": "3.10"
+}
+
